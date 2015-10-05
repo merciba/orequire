@@ -1,0 +1,29 @@
+{
+  "name": "orequire",
+  "version": "1.0.1",
+  "description": "require a folder as an object",
+  "main": "src/orequire.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/merciba/orequire.git"
+  },
+  "keywords": [
+    "require",
+    "object",
+    "folder",
+    "loader",
+    "module"
+  ],
+  "author": "Merciba Team <team@merciba.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "chai": "^3.3.0",
+    "mocha": "^2.3.3"
+  }
+}
