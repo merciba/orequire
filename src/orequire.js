@@ -35,7 +35,8 @@ module.exports = function() {
 					filename = filename.replace(/(.js|.coffee|.litcoffee|.json)/, '')
 					absolute = path.join(dir, filename)
 					relative = path.relative(this.basePath, absolute)
-					object[filename] = require('../'+relative)
+
+					object[filename] = require(relative)
 				}
 			}
 		}.bind(this))
@@ -43,6 +44,6 @@ module.exports = function() {
 		return object
 	}.bind(this)
 
-	return getObject(path.join(this.basePath, arguments[0]))
+	return getObject(path.join(this.basePath, '../../../', arguments[0]))
 
-}.bind({ basePath: path.join(__dirname, '../') })
+}.bind({ basePath: __dirname })
