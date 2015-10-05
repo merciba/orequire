@@ -1,6 +1,8 @@
 orequire
 ====
 
+[![NPM](https://nodei.co/npm/orequire.png)](https://nodei.co/npm/orequire/)
+
 require a folder as an object
 
 ### Usage 
