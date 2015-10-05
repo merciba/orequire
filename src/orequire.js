@@ -19,31 +19,30 @@ var _ 							= require('lodash')
 var path 						= require('path')
 var fs 							= require('fs')
 
-module.exports = function() {
-	
-	var getObject = function(dir) {
-		var object = {}
-		
-		_.map(fs.readdirSync(dir), function(filename) {
-			if (filename !== ".DS_Store") {
-				var absolute = path.join(dir, filename)
-				var relative = path.relative(this.basePath, absolute)
-				var isDir = fs.lstatSync(absolute).isDirectory()
+module.exports = function(directory) {
 
-				if (isDir) object[filename] = getObject(absolute)
+	var getObject = function(relative) {
+		var object = {}	
+		var absolute 					= path.join(__dirname, relative)
+		var ignore 						= [ '.DS_Store' ]
+
+		_.map(fs.readdirSync(absolute), function(filename) {
+			if (ignore.indexOf(filename) === -1) {
+				var absoluteFileName = path.join(absolute, filename)
+				var isDir = fs.lstatSync(absoluteFileName).isDirectory()
+
+				if (isDir) object[filename] = getObject(absoluteFileName)
 				else {
 					filename = filename.replace(/(.js|.coffee|.litcoffee|.json)/, '')
-					absolute = path.join(dir, filename)
-					relative = path.relative(this.basePath, absolute)
-
-					object[filename] = require(relative)
+					relativeFileName = path.join(relative, filename)
+					object[filename] = require(relativeFileName)
 				}
 			}
-		}.bind(this))
+		})
 
 		return object
-	}.bind(this)
+	}
 
-	return getObject(path.join(this.basePath, '../../../', arguments[0]))
+	return getObject(path.join('../../../', directory))
 
-}.bind({ basePath: __dirname })
+}
