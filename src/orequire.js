@@ -18,33 +18,31 @@ Note that this module is synchronous.
 var _ 							= require('lodash')
 var path 						= require('path')
 var fs 							= require('fs')
-var instance 					= {}
 
-var oRequire = function() {
+module.exports = function() {
 	
-	instance.basePath = path.join(__dirname, '../')
-
-	instance.getObject = function(dir) {
+	var getObject = function(dir) {
 		var object = {}
 		
 		_.map(fs.readdirSync(dir), function(filename) {
-			var absolute = path.join(dir, filename)
-			var isDir = fs.lstatSync(absolute).isDirectory()
+			if (filename !== ".DS_Store") {
+				var absolute = path.join(dir, filename)
+				var relative = path.relative(this.basePath, absolute)
+				var isDir = fs.lstatSync(absolute).isDirectory()
 
-			if (isDir) object[filename] = this.getObject(absolute)
-			else {
-				filename = filename.replace(/(.js|.coffee|.litcoffee|.json)/, '')
-				var relative = path.relative(__dirname, absolute)
-				object[filename] = require(relative)
+				if (isDir) object[filename] = getObject(absolute)
+				else {
+					filename = filename.replace(/(.js|.coffee|.litcoffee|.json)/, '')
+					absolute = path.join(dir, filename)
+					relative = path.relative(this.basePath, absolute)
+					object[filename] = require('../'+relative)
+				}
 			}
 		}.bind(this))
 
 		return object
-	}.bind(instance)
+	}.bind(this)
 
-	return function() {
-		return this.getObject(path.join(this.basePath, arguments[0]))
-	}.bind(instance)
-}
+	return getObject(path.join(this.basePath, arguments[0]))
 
-module.exports = new oRequire()
+}.bind({ basePath: path.join(__dirname, '../') })
