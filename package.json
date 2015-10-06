@@ -1,6 +1,6 @@
 {
   "name": "orequire",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "require a folder as an object",
   "main": "src/orequire.js",
   "scripts": {

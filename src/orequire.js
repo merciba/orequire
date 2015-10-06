@@ -31,7 +31,10 @@ module.exports = function(directory) {
 				var absoluteFileName = path.join(absolute, filename)
 				var isDir = fs.lstatSync(absoluteFileName).isDirectory()
 
-				if (isDir) object[filename] = getObject(absoluteFileName)
+				if (isDir) {
+					relativeFileName = path.join(relative, filename)
+					object[filename] = getObject(relativeFileName)
+				}
 				else {
 					filename = filename.replace(/(.js|.coffee|.litcoffee|.json)/, '')
 					relativeFileName = path.join(relative, filename)
