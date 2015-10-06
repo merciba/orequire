@@ -23,8 +23,8 @@ module.exports = function(directory) {
 
 	var getObject = function(relative) {
 		var object = {}	
-		var absolute 					= path.join(__dirname, relative)
-		var ignore 						= [ '.DS_Store' ]
+		var absolute = path.join(__dirname, relative)
+		var ignore = [ '.DS_Store' ]
 
 		_.map(fs.readdirSync(absolute), function(filename) {
 			if (ignore.indexOf(filename) === -1) {

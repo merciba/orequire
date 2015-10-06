@@ -89,9 +89,9 @@ var _ = require('lodash')
 var orequire = require('orequire')
 var express = require('express')
 
-var controllers: orequire('controllers')
-var models: orequire('models')
-var routes: orequire('routes')
+var controllers = orequire('controllers')
+var models = orequire('models')
+var routes = orequire('routes')
 
 var app = express()
 
